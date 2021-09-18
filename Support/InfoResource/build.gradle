@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group 'com.trecapps.base'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    repositories{
+        maven {
+            url 'https://pkgs.dev.azure.com/trecapps1/TrecAppsDev1/_packaging/tcMavenRepo/maven/v1'
+            name 'tcMavenRepo'
+            authentication {
+                username azureRepoUsername
+                password azureRepoPassword
+            }
+        }
+    }
+}
