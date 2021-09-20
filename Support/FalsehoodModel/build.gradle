@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'com.trecapps.base'
+version buildVersion
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url azureRepoUrl
+        name 'tcMavenRepo'
+        credentials {
+            username azureRepoUsername
+            password azureRepoPassword
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.trecapps.base:InfoResource:+'
+
+    // DB Support
+    implementation 'org.hibernate:hibernate-core:5.4.11.Final'
+    implementation 'org.hibernate:hibernate-entitymanager:5.4.11.Final'
+    implementation 'javax.validation:validation-api:+'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+
+    publications {
+        myPublication(MavenPublication) {
+            groupId group
+            artifactId 'FalsehoodModel'
+            version buildVersion
+            artifact 'build/libs/'.concat(artifactId).concat('-').concat(buildVersion).concat('.jar')
+        }
+    }
+
+    repositories{
+        maven {
+            url azureRepoUrl
+            name 'tcMavenRepo'
+            credentials {
+                username azureRepoUsername
+                password azureRepoPassword
+            }
+        }
+    }
+}
