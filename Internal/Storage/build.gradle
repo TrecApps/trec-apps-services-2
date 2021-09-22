@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+
+
+    // Spring Boot features
+    implementation 'org.springframework.boot:spring-boot-starter-web:+'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:+'
+    // DB Support
+    implementation 'org.hibernate:hibernate-core:5.4.11.Final'
+    implementation 'org.hibernate:hibernate-entitymanager:5.4.11.Final'
+    implementation 'javax.validation:validation-api:+'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
+
+    implementation 'mysql:mysql-connector-java:+' // mySQL
+
+
+    // Azure Storage (uncomment when its time to do the actual storage)
+    //implementation 'com.microsoft.azure:spring-starter-azure-storage:+'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
