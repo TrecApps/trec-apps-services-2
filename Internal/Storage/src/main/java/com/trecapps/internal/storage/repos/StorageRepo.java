@@ -60,6 +60,6 @@ public class StorageRepo {
 
         CloudBlob blob = container.getBlobReferenceFromServer(blobName);
         blob.delete();
-        
+
     }
 }

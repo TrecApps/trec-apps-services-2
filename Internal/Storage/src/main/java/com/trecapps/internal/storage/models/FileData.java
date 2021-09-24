@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.http.HttpHeaders;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigInteger;
-import java.net.http.HttpHeaders;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Optional;
@@ -38,8 +37,21 @@ public class FileData
 
     String ext;
 
+    String app; // Use for File Container
+    
+    public static Optional<String> getHeaderValue(HttpHeaders headers, String header)
+    {
+        String val = headers.getFirst(header);
+        return val != null ? Optional.of(val) : Optional.empty();
+    }
+
     public static FileData getFileData(HttpHeaders headers)
     {
+        Optional<String> type = getHeaderValue(headers, "App");
+        if (type.isEmpty())
+            throw new IllegalArgumentException("Need App name to determine Storage container");
+        String appName = type.get();
+
         Date added = new Date(Calendar.getInstance(TimeZone.getTimeZone("CST")).getTime().getTime());
         byte fileType = -1;
 
@@ -47,7 +59,7 @@ public class FileData
         byte nsfwRating = 0;
 
         Long account;
-        Optional<String> type = headers.firstValue("Account");
+        type = getHeaderValue(headers, "Account");
 
         if(type.isEmpty())
             throw new IllegalArgumentException("Adding new File must have an account accosiated with it!");
@@ -59,7 +71,7 @@ public class FileData
             throw new IllegalArgumentException("Failed to parse Account Number from provided field!", ex);
         }
 
-        type = headers.firstValue("Content-type");
+        type = getHeaderValue(headers, "Content-type");
 
 
         if(type.isPresent())
@@ -71,18 +83,18 @@ public class FileData
 
         if(fileType == 2 || fileType == 3)
         {
-            type = headers.firstValue("Extension");
+            type = getHeaderValue(headers, "Extension");
             if(type.isEmpty())
                 throw new IllegalArgumentException("Files with 'code' or 'document' for 'Content-type' MUST have a valid file 'Extension' field");
             ext = type.get();
         }
 
-        type = headers.firstValue("FileName");
+        type = getHeaderValue(headers, "FileName");
 
         if(type.isPresent())
             fileName = type.get();
 
-        type = headers.firstValue("Content-mod");
+        type = getHeaderValue(headers, "Content-mod");
 
         if(type.isPresent())
         {
@@ -107,7 +119,7 @@ public class FileData
             }
         }
 
-        return new FileData(account,added, null, fileName, fileType, nsfwRating, ext);
+        return new FileData(account,added, null, fileName, fileType, nsfwRating, ext, appName);
     }
 
     public static byte convertFileType(String type)
