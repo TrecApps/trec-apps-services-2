@@ -28,7 +28,7 @@ dependencies {
 
 
     // Azure Storage (uncomment when its time to do the actual storage)
-    //implementation 'com.microsoft.azure:spring-starter-azure-storage:+'
+    implementation 'com.microsoft.azure:spring-starter-azure-storage:+'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

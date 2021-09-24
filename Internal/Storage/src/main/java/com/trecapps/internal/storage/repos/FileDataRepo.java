@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FileDataRepo extends JpaRepository<FileData, Long> {
-    
+
 }
