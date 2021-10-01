@@ -1,67 +1,22 @@
 package com.trecapps.base.InfoResource.models;
 
+import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class RegionEntry {
 
 	Region region;
 	
 	String contents;
 
-	
-	
-	/**
-	 * 
-	 */
-	public RegionEntry() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	List<Record> records;
 
-	/**
-	 * @param region
-	 * @param contents
-	 */
-	public RegionEntry(Region region, String contents) {
-		super();
-		this.region = region;
-		this.contents = contents;
-	}
-
-	/**
-	 * @return the region
-	 */
-	public Region getRegion() {
-		return region;
-	}
-
-	/**
-	 * @param region the region to set
-	 */
-	public void setRegion(Region region) {
-		this.region = region;
-	}
-
-	/**
-	 * @return the contents
-	 */
-	public String getContents() {
-		return contents;
-	}
-
-	/**
-	 * @param contents the contents to set
-	 */
-	public void setContents(String contents) {
-		this.contents = contents;
-	}
-
-	@Override
-	public String toString() {
-		return "RegionEntry{" +
-				"region=" + region +
-				", contents='" + contents + '\'' +
-				'}';
-	}
 }

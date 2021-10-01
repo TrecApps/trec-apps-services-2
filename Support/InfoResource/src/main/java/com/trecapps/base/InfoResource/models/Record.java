@@ -3,20 +3,19 @@ package com.trecapps.base.InfoResource.models;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.sql.Date;
 
 @Component
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class PublicFigureEntry {
-
-	PublicFigure figure;
-	
-	String text;
-
-	List<Record> records;
-
+public class Record
+{
+    String recordType;
+    String details;
+    Date made;
+    Long userId;
+    String specifics;
 }
