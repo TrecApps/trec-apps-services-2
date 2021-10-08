@@ -1,32 +1,31 @@
 package com.trecapps.base.FalsehoodModel.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class FullPublicFalsehood {
 
     String contents;
 
     PublicFalsehood metadata;
 
-    public FullPublicFalsehood() {
-    }
-    
-    /**
-	 * @param contents
-	 * @param metadata
-	 */
-	public FullPublicFalsehood(String contents, PublicFalsehood metadata) {
-		super();
-		this.contents = contents;
-		this.metadata = metadata;
-	}
+    PublicFalsehoodRecords records;
+
+
 
 	public FullPublicFalsehood clone()
     {
-    	return new FullPublicFalsehood(contents, metadata.clone());
+    	return new FullPublicFalsehood(contents, metadata.clone(), records);
     }
 
 	public FullPublicFalsehood clone(byte severity)
@@ -36,24 +35,7 @@ public class FullPublicFalsehood {
 
 		PublicFalsehood newMeta = metadata.clone();
 		newMeta.setStatus(severity);
-		return new FullPublicFalsehood(contents, newMeta);
+		return new FullPublicFalsehood(contents, newMeta, records);
 	}
 
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public PublicFalsehood getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(PublicFalsehood metadata) {
-        this.metadata = metadata;
-    }
-
-    
 }

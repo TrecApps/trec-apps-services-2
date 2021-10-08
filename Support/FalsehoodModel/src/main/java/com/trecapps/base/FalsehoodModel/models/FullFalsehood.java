@@ -1,30 +1,31 @@
 package com.trecapps.base.FalsehoodModel.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class FullFalsehood {
 
 	String contents;
 	
 	Falsehood metadata;
-	
-	/**
-	 * @param contents
-	 * @param metadata
-	 */
-	public FullFalsehood(String contents, Falsehood metadata) {
-		super();
-		this.contents = contents;
-		this.metadata = metadata;
-	}
+
+	FalsehoodRecords records;
+
 
 	public FullFalsehood clone()
 	{
-		return new FullFalsehood(contents, metadata.clone());
+		return new FullFalsehood(contents, metadata.clone(), records);
 	}
 
 	public FullFalsehood clone(byte severity)
@@ -34,45 +35,8 @@ public class FullFalsehood {
 
 		Falsehood newMeta = metadata.clone();
 		newMeta.setStatus(severity);
-		return new FullFalsehood(contents, newMeta);
+		return new FullFalsehood(contents, newMeta, records);
 	}
-
-	/**
-	 * 
-	 */
-	public FullFalsehood() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @return the contents
-	 */
-	public String getContents() {
-		return contents;
-	}
-
-	/**
-	 * @param contents the contents to set
-	 */
-	public void setContents(String contents) {
-		this.contents = contents;
-	}
-
-	/**
-	 * @return the metadata
-	 */
-	public Falsehood getMetadata() {
-		return metadata;
-	}
-
-	/**
-	 * @param metadata the metadata to set
-	 */
-	public void setMetadata(Falsehood metadata) {
-		this.metadata = metadata;
-	}
-
 
 	
 }

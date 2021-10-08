@@ -58,7 +58,7 @@ public class Falsehood implements Comparable<Falsehood>{
 	public static final byte HONEST_BIAS = 5;		// Could be truthful, based on a bias that entity acknowledges
 	
 	@Column
-	byte severity;
+	Severity severity;
 	
 	@ManyToOne
 	@JoinColumn
@@ -81,7 +81,7 @@ public class Falsehood implements Comparable<Falsehood>{
 	String tags;
 
 
-	public Falsehood(BigInteger id, MediaOutlet outlet, byte status, byte mediaType, byte severity, PublicFigure author1, PublicFigure author2,
+	public Falsehood(BigInteger id, MediaOutlet outlet, byte status, byte mediaType, Severity severity, PublicFigure author1, PublicFigure author2,
 			 String source, Date dateMade, String contentId, String tags) {
 		super();
 		this.id = id;
@@ -124,14 +124,14 @@ public class Falsehood implements Comparable<Falsehood>{
 	
 	public boolean canUpgrade()
 	{
-		return severity == (byte)1 || severity == (byte)4;
+		return severity.GetValue() == (byte)1 || severity.GetValue() == (byte)4;
 	}
 	
 	public boolean upgrade()
 	{
 		if(!canUpgrade())
 			return false;
-		severity--;
+		severity = Severity.values()[severity.GetValue()-1];
 		status = FalsehoodStatus.MODIFIED.GetValue();
 		return true;
 	}
@@ -174,11 +174,11 @@ public class Falsehood implements Comparable<Falsehood>{
 		this.mediaType = mediaType;
 	}
 	
-	public byte getSeverity() {
+	public Severity getSeverity() {
 		return severity;
 	}
 
-	public void setSeverity(byte severity) {
+	public void setSeverity(Severity severity) {
 		this.severity = severity;
 	}
 

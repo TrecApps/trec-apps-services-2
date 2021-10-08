@@ -77,7 +77,7 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	Institution institution;
 	
 	@Column
-	byte severity;
+	Severity severity;
 	
 	@Column
 	Date dateMade;
@@ -104,7 +104,7 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	 * @param severity
 	 */
 	public PublicFalsehood(BigInteger id, byte status, PublicFigure official, byte officialType,
-                           Region region, Institution institution, byte severity, Date dateMade, String tags) {
+                           Region region, Institution institution, Severity severity, Date dateMade, String tags) {
 		super();
 		this.id = id;
 		this.status = status;
@@ -119,14 +119,14 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	
 	public boolean canUpgrade()
 	{
-		return severity == (byte)1 || severity == (byte)4;
+		return severity.GetValue() == (byte)1 || severity.GetValue() == (byte)4;
 	}
 	
 	public boolean upgrade()
 	{
 		if(!canUpgrade())
 			return false;
-		severity--;
+		severity = Severity.values()[severity.GetValue()-1];
 		return true;
 	}
 	
@@ -238,14 +238,14 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	/**
 	 * @return the severity
 	 */
-	public byte getSeverity() {
+	public Severity getSeverity() {
 		return severity;
 	}
 
 	/**
 	 * @param severity the severity to set
 	 */
-	public void setSeverity(byte severity) {
+	public void setSeverity(Severity severity) {
 		this.severity = severity;
 	}
 

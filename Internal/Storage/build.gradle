@@ -1,9 +1,11 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'org.springframework.boot' version '2.4.2'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'com.trecapps.internal'
+version buildVersion
 
 repositories {
     mavenCentral()
@@ -11,7 +13,8 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    compileOnly 'org.projectlombok:lombok:1.18.20'
+    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
 
 
     // Spring Boot features
@@ -36,4 +39,27 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+
+    publications {
+        myPublication(MavenPublication) {
+            groupId group
+            artifactId 'Storage'
+            version buildVersion
+            artifact 'build/libs/'.concat(artifactId).concat('-').concat(buildVersion).concat('.jar')
+        }
+    }
+
+    repositories{
+        maven {
+            url azureRepoUrl
+            name 'tcMavenRepo'
+            credentials {
+                username azureRepoUsername
+                password azureRepoPassword
+            }
+        }
+    }
 }

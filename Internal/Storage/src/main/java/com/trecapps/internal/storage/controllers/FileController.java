@@ -96,7 +96,8 @@ public class FileController {
         try
         {
             String userIdStr = headers.getFirst("UserId");
-            userId = Long.parseLong(userIdStr);
+            if(userIdStr != null)
+                userId = Long.parseLong(userIdStr);
         }catch(NumberFormatException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
