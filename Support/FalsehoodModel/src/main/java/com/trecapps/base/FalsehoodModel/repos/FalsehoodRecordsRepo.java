@@ -1,6 +1,6 @@
 package com.trecapps.base.FalsehoodModel.repos;
 
-import com.microsoft.azure.spring.data.cosmosdb.repository.CosmosRepository;
+import com.azure.spring.data.cosmos.repository.CosmosRepository;
 import com.trecapps.base.FalsehoodModel.models.FalsehoodRecords;
 import org.springframework.stereotype.Repository;
 
