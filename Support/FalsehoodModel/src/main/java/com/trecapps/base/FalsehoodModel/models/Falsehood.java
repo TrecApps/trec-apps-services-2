@@ -2,15 +2,24 @@ package com.trecapps.base.FalsehoodModel.models;
 
 import com.trecapps.base.InfoResource.models.MediaOutlet;
 import com.trecapps.base.InfoResource.models.PublicFigure;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.sql.Date;
 
 
 @Entity
 @Table
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 public class Falsehood implements Comparable<Falsehood>{
 
 
@@ -76,50 +85,18 @@ public class Falsehood implements Comparable<Falsehood>{
 	
 	@Column
 	String contentId;
+
+	@Column
+	@NotNull
+	String userId;
 	
 	@Column(length = 400)
 	String tags;
 
 
-	public Falsehood(BigInteger id, MediaOutlet outlet, byte status, byte mediaType, Severity severity, PublicFigure author1, PublicFigure author2,
-			 String source, Date dateMade, String contentId, String tags) {
-		super();
-		this.id = id;
-		this.outlet = outlet;
-		this.status = status;
-		this.mediaType = mediaType;
-		this.severity = severity;
-		this.author1 = author1;
-		this.author2 = author2;
-		this.contentId = contentId;
-		this.source = source;
-		this.dateMade = dateMade;
-		this.tags = tags;
-	}
-
-	
-	
-	/**
-	 * @return the tags
-	 */
-	public String getTags() {
-		return tags;
-	}
-
-
-
-	/**
-	 * @param tags the tags to set
-	 */
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
-
-
-
 	public Falsehood clone()
 	{
-		return new Falsehood(id, outlet, status, mediaType, severity, author1, author2, source, dateMade, contentId, tags);
+		return new Falsehood(id, outlet, status, mediaType, severity, author1, author2, source, dateMade, contentId, userId, tags);
 	}
 	
 	public boolean canUpgrade()
@@ -135,94 +112,6 @@ public class Falsehood implements Comparable<Falsehood>{
 		status = FalsehoodStatus.MODIFIED.GetValue();
 		return true;
 	}
-
-	public Falsehood() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public BigInteger getId() {
-		return id;
-	}
-
-	public void setId(BigInteger id) {
-		this.id = id;
-	}
-
-
-	public MediaOutlet getOutlet() {
-		return outlet;
-	}
-
-	public void setOutlet(MediaOutlet outlet) {
-		this.outlet = outlet;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(byte status) {
-		this.status = status;
-	}
-	
-	public byte getMediaType() {
-		return mediaType;
-	}
-
-	public void setMediaType(byte mediaType) {
-		this.mediaType = mediaType;
-	}
-	
-	public Severity getSeverity() {
-		return severity;
-	}
-
-	public void setSeverity(Severity severity) {
-		this.severity = severity;
-	}
-
-	public PublicFigure getAuthor1() {
-		return author1;
-	}
-
-	public void setAuthor1(PublicFigure author1) {
-		this.author1 = author1;
-	}
-
-	public PublicFigure getAuthor2() {
-		return author2;
-	}
-
-	public void setAuthor2(PublicFigure author2) {
-		this.author2 = author2;
-	}
-
-	public String getContentId() {
-		return contentId;
-	}
-
-	public void setContentId(String details) {
-		this.contentId = details;
-	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-	public Date getDateMade() {
-		return dateMade;
-	}
-
-	public void setDateMade(Date dateMade) {
-		this.dateMade = dateMade;
-	}
-
-
 
 	@Override
 	public String toString() {

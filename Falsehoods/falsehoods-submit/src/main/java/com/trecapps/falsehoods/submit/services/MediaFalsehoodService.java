@@ -5,6 +5,7 @@ import com.trecapps.base.FalsehoodModel.repos.FalsehoodRecordsRepo;
 import com.trecapps.base.FalsehoodModel.repos.FalsehoodRepo;
 import com.trecapps.base.InfoResource.models.Record;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -67,11 +68,14 @@ public class MediaFalsehoodService {
         return "";
     }
 
-    public String editFalsehoodContents(BigInteger id, String contents, String comment)
+    public String editFalsehoodContents(BigInteger id, String contents, String comment, OidcUser principal)
     {
         if(!cRepos.existsById(id) || !pfRepo.existsById(id))
             return "404: Falsehood not documented!";
 
+        Falsehood metadata = pfRepo.getById(id);
+        if(!principal.getSubject().equals(metadata.getUserId()))
+            return "401: Only the Owner of the Falsehood can change the contents";
         // To-Do: Once Storage Client is set up, send new contents to it
 
 

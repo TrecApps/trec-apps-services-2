@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     implementation 'com.trecapps.base:InfoResource:+'
-    implementation 'com.trecapps.base:FalsehoodModel:0.0.8'
+    implementation 'com.trecapps.base:FalsehoodModel:0.0.9'
 
     // Spring Boot features
     implementation 'org.springframework.boot:spring-boot-starter-web:+'

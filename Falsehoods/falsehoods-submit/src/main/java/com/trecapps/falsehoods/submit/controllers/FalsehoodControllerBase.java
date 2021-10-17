@@ -10,6 +10,8 @@ public class FalsehoodControllerBase {
 
     public static final int MIN_CREDIT_APPROVE_REJECT_RESOURCE = 200;
 
+    public static final int MIN_CREDIT_UPDATE_METADATA = 400;
+
     public static final int MIN_CREDIT_ADD_OUTLET = 40;
 
     protected ResponseEntity<String> getResult(String result)
@@ -22,6 +24,8 @@ public class FalsehoodControllerBase {
                 return new ResponseEntity<>(result.substring(4).trim(), HttpStatus.NOT_FOUND);
             case "500":
                 return new ResponseEntity<>(result.substring(4).trim(), HttpStatus.INTERNAL_SERVER_ERROR);
+            case "401":
+                return new ResponseEntity<>(result.substring(4).trim(), HttpStatus.FORBIDDEN);
         }
 
         return new ResponseEntity<>("Success", HttpStatus.OK);

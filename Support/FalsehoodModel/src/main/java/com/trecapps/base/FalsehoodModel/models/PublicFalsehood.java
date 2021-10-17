@@ -3,14 +3,23 @@ package com.trecapps.base.FalsehoodModel.models;
 import com.trecapps.base.InfoResource.models.Institution;
 import com.trecapps.base.InfoResource.models.PublicFigure;
 import com.trecapps.base.InfoResource.models.Region;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.sql.Date;
 
 
 @Entity
 @Table
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 public class PublicFalsehood implements Comparable<PublicFalsehood>{
 
 	@Override
@@ -81,41 +90,16 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	
 	@Column
 	Date dateMade;
+
+
+	@Column
+	@NotNull
+	String userId;
 	
 	@Column(length = 400)
 	String tags;
-	
 
-	/**
-	 * 
-	 */
-	public PublicFalsehood() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
-	/**
-	 * @param id
-	 * @param status
-	 * @param official
-	 * @param officialType
-	 * @param region
-	 * @param institution
-	 * @param severity
-	 */
-	public PublicFalsehood(BigInteger id, byte status, PublicFigure official, byte officialType,
-                           Region region, Institution institution, Severity severity, Date dateMade, String tags) {
-		super();
-		this.id = id;
-		this.status = status;
-		this.official = official;
-		this.officialType = officialType;
-		this.region = region;
-		this.institution = institution;
-		this.severity = severity;
-		this.dateMade = dateMade;
-		this.tags = tags;
-	}
 	
 	public boolean canUpgrade()
 	{
@@ -132,136 +116,22 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	
 	public PublicFalsehood clone()
 	{
-		return new PublicFalsehood(id, status, official, officialType, region, institution, severity, dateMade, tags);
-	}
-	
-	
-
-	/**
-	 * @return the tags
-	 */
-	public String getTags() {
-		return tags;
+		return new PublicFalsehood(id, status, official, officialType, region, institution, severity, dateMade, userId, tags);
 	}
 
-	/**
-	 * @param tags the tags to set
-	 */
-	public void setTags(String tags) {
-		this.tags = tags;
+	@Override
+	public String toString() {
+		return "PublicFalsehood{" +
+				"id=" + id +
+				", status=" + status +
+				", official=" + official +
+				", officialType=" + officialType +
+				", region=" + region +
+				", institution=" + institution +
+				", severity=" + severity +
+				", dateMade=" + dateMade +
+				", userId='" + userId + '\'' +
+				", tags='" + tags + '\'' +
+				'}';
 	}
-
-	/**
-	 * @return the id
-	 */
-	public BigInteger getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(BigInteger id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the status
-	 */
-	public byte getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(byte status) {
-		this.status = status;
-	}
-
-	/**
-	 * @return the official
-	 */
-	public PublicFigure getOfficial() {
-		return official;
-	}
-
-	/**
-	 * @param official the official to set
-	 */
-	public void setOfficial(PublicFigure official) {
-		this.official = official;
-	}
-
-	/**
-	 * @return the officialType
-	 */
-	public byte getOfficialType() {
-		return officialType;
-	}
-
-	/**
-	 * @param officialType the officialType to set
-	 */
-	public void setOfficialType(byte officialType) {
-		this.officialType = officialType;
-	}
-
-	/**
-	 * @return the region
-	 */
-	public Region getRegion() {
-		return region;
-	}
-
-	/**
-	 * @param region the region to set
-	 */
-	public void setRegion(Region region) {
-		this.region = region;
-	}
-
-	/**
-	 * @return the institution
-	 */
-	public Institution getInstitution() {
-		return institution;
-	}
-
-	/**
-	 * @param institution the institution to set
-	 */
-	public void setInstitution(Institution institution) {
-		this.institution = institution;
-	}
-
-	/**
-	 * @return the severity
-	 */
-	public Severity getSeverity() {
-		return severity;
-	}
-
-	/**
-	 * @param severity the severity to set
-	 */
-	public void setSeverity(Severity severity) {
-		this.severity = severity;
-	}
-
-	/**
-	 * @return the dateMade
-	 */
-	public Date getDateMade() {
-		return dateMade;
-	}
-
-	/**
-	 * @param dateMade the dateMade to set
-	 */
-	public void setDateMade(Date dateMade) {
-		this.dateMade = dateMade;
-	}
-
-	
 }
