@@ -35,7 +35,7 @@ public class MediaFalsehoodController extends FalsehoodControllerBase{
             return new ResponseEntity<String>
                     ("Your Credibility Is too low. Please wait until it is set to five before trying again!",
                             HttpStatus.FORBIDDEN);
-        return super.getResult(mediaFalsehoodService.submitFalsehood(falsehood.getBody()));
+        return super.getResult(mediaFalsehoodService.submitFalsehood(falsehood.getBody(), principal.getSubject()));
     }
 
     @PutMapping("/Metadata")

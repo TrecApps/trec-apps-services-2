@@ -26,7 +26,7 @@ public class PublicFalsehoodService {
     @Autowired
     PublicFalsehoodRecordsRepo cRepos;
 
-    public String submitFalsehood(FullPublicFalsehood full)
+    public String submitFalsehood(FullPublicFalsehood full, String subject)
     {
         String contents = full.getContents();
         PublicFalsehood falsehood = full.getMetadata();
@@ -34,7 +34,7 @@ public class PublicFalsehoodService {
             return "400: Missing details!";
 
         falsehood.setId(null);
-
+        falsehood.setUserId(subject);
         falsehood = pfRepo.save(falsehood);
         // To-Do: Set up Sotrage Client and send Contents of file to it
 
@@ -61,6 +61,10 @@ public class PublicFalsehoodService {
         BigInteger fId = falsehood.getId();
         if(!cRepos.existsById(fId) || !pfRepo.existsById(fId))
             return "404: Falsehood not documented!";
+
+        PublicFalsehood currentFalsehood = pfRepo.getById(fId);
+        if(!currentFalsehood.getUserId().equals(falsehood.getUserId()))
+            return "400: Cannot attempt to change the id of the submitter on the Falsehood!";
 
         falsehood = pfRepo.save(falsehood);
 

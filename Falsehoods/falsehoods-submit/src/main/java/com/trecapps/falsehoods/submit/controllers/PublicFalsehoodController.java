@@ -36,7 +36,7 @@ public class PublicFalsehoodController extends FalsehoodControllerBase{
             return new ResponseEntity<String>
                     ("Your Credibility Is too low. Please wait until it is set to five before trying again!",
                             HttpStatus.FORBIDDEN);
-        return super.getResult(publicFalsehoodService.submitFalsehood(falsehood.getBody()));
+        return super.getResult(publicFalsehoodService.submitFalsehood(falsehood.getBody(), principal.getSubject()));
     }
 
     @PutMapping("/Metadata")

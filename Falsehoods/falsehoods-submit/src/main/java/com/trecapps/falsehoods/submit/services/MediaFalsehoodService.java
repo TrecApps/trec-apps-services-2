@@ -23,7 +23,7 @@ public class MediaFalsehoodService {
     @Autowired
     FalsehoodRecordsRepo cRepos;
 
-    public String submitFalsehood(FullFalsehood full)
+    public String submitFalsehood(FullFalsehood full, String subject)
     {
         String contents = full.getContents();
         Falsehood falsehood = full.getMetadata();
@@ -31,7 +31,7 @@ public class MediaFalsehoodService {
             return "400: Missing details!";
 
         falsehood.setId(null);
-
+        falsehood.setUserId(subject);
         falsehood = pfRepo.save(falsehood);
         // To-Do: Set up Sotrage Client and send Contents of file to it
 
@@ -58,6 +58,10 @@ public class MediaFalsehoodService {
         BigInteger fId = falsehood.getId();
         if(!cRepos.existsById(fId) || !pfRepo.existsById(fId))
             return "404: Falsehood not documented!";
+
+        Falsehood currentFalsehood = pfRepo.getById(fId);
+        if(!currentFalsehood.getUserId().equals(falsehood.getUserId()))
+            return "400: Cannot attempt to change the id of the submitter on the Falsehood!";
 
         falsehood = pfRepo.save(falsehood);
 

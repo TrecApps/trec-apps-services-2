@@ -1,7 +1,9 @@
 package com.trecapps.falsehoods.falsehoodReview.services;
 
+import com.trecapps.base.FalsehoodModel.models.FalsehoodUser;
 import com.trecapps.base.FalsehoodModel.models.PublicFalsehood;
 import com.trecapps.base.FalsehoodModel.models.PublicFalsehoodRecords;
+import com.trecapps.base.FalsehoodModel.repos.FalsehoodUserRepo;
 import com.trecapps.base.FalsehoodModel.repos.PublicFalsehoodRecordsRepo;
 import com.trecapps.base.FalsehoodModel.repos.PublicFalsehoodRepo;
 import com.trecapps.base.InfoResource.models.Record;
@@ -21,6 +23,9 @@ public class PublicFalsehoodsService {
 
     @Autowired
     PublicFalsehoodRecordsRepo cRepos;
+
+    @Autowired
+    FalsehoodUserRepo uRepo;
 
     public String addVerdict(BigInteger id, String approve, String comment)
     {
@@ -67,16 +72,21 @@ public class PublicFalsehoodsService {
             }
         }
 
-        if(appCount >= (2 * (safeRej + penRej)))
-            f.setStatus((byte)2);
+        if(appCount >= (2 * (safeRej + penRej))) {
+            f.setStatus((byte) 2);
+
+            FalsehoodUser user = uRepo.getById(f.getUserId());
+            user.setCredibility(user.getCredibility() + 5);
+            uRepo.save(user);
+        }
         if((safeRej + penRej) >= (appCount * 2))
         {
             f.setStatus((byte)5);
             if(penRej > safeRej)
             {
-                // To-Do: Penalize Submitter
-
-                // End To-Do
+                FalsehoodUser user = uRepo.getById(f.getUserId());
+                user.setCredibility(user.getCredibility() - 5);
+                uRepo.save(user);
             }
         }
         repo.save(f);

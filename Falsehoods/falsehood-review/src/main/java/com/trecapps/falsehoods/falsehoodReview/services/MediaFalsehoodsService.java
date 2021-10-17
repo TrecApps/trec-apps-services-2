@@ -2,8 +2,10 @@ package com.trecapps.falsehoods.falsehoodReview.services;
 
 import com.trecapps.base.FalsehoodModel.models.Falsehood;
 import com.trecapps.base.FalsehoodModel.models.FalsehoodRecords;
+import com.trecapps.base.FalsehoodModel.models.FalsehoodUser;
 import com.trecapps.base.FalsehoodModel.repos.FalsehoodRecordsRepo;
 import com.trecapps.base.FalsehoodModel.repos.FalsehoodRepo;
+import com.trecapps.base.FalsehoodModel.repos.FalsehoodUserRepo;
 import com.trecapps.base.InfoResource.models.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class MediaFalsehoodsService {
     @Autowired
     FalsehoodRecordsRepo cRepos;
 
+    @Autowired
+    FalsehoodUserRepo uRepo;
+
     public String addVerdict(BigInteger id, String approve, String comment)
     {
         // Make sure target falsehood is in repos
@@ -32,11 +37,6 @@ public class MediaFalsehoodsService {
         int s = f.getStatus();
         if(s > 1)
             return "400: Falsehood already has a Final Verdict!";
-
-        // To-Do: Once User Support is added, make sure that this user is not the submitting user
-
-
-        // End To-DO
 
         Record record = new Record("Verdict", approve, new Date(Calendar.getInstance().getTime().getTime()), 0l, comment);
 
@@ -67,16 +67,20 @@ public class MediaFalsehoodsService {
             }
         }
 
-        if(appCount >= (2 * (safeRej + penRej)))
-            f.setStatus((byte)2);
-        if((safeRej + penRej) >= (appCount * 2))
+        if(appCount >= (2 * (safeRej + penRej))) {
+            f.setStatus((byte) 2);
+            FalsehoodUser user = uRepo.getById(f.getUserId());
+            user.setCredibility(user.getCredibility() + 5);
+            uRepo.save(user);
+        }
+        else if((safeRej + penRej) >= (appCount * 2))
         {
             f.setStatus((byte)5);
             if(penRej > safeRej)
             {
-                // To-Do: Penalize Submitter
-
-                // End To-Do
+                FalsehoodUser user = uRepo.getById(f.getUserId());
+                user.setCredibility(user.getCredibility() - 5);
+                uRepo.save(user);
             }
         }
         repo.save(f);
