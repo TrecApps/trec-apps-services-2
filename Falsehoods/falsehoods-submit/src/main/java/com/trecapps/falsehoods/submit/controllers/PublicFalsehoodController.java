@@ -38,7 +38,8 @@ public class PublicFalsehoodController extends FalsehoodControllerBase{
                     ("Your Credibility Is too low. Please wait until it is set to five before trying again!",
                             HttpStatus.FORBIDDEN));
         return publicFalsehoodService.submitFalsehood(falsehood.getBody(), principal.getSubject())
-                .map((String message) -> super.getResult(message));
+                .map((String message) -> super.getResult(message))
+                .onErrorResume((Throwable ex) -> Mono.just(super.getResult(ex.getMessage())));
     }
 
     @PutMapping("/Metadata")
@@ -56,7 +57,7 @@ public class PublicFalsehoodController extends FalsehoodControllerBase{
     }
 
     @PutMapping(value = "/Content", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateContents(RequestEntity<MultiValueMap<String, String>> request,
+    public Mono<ResponseEntity<String>> updateContents(RequestEntity<MultiValueMap<String, String>> request,
                                                  @AuthenticationPrincipal OidcUser principal)
     {
         MultiValueMap<String, String> values = request.getBody();
@@ -66,10 +67,12 @@ public class PublicFalsehoodController extends FalsehoodControllerBase{
             id = new BigInteger(values.getFirst("Falsehood"));
         } catch (Exception e)
         {
-            return new ResponseEntity<String>("Could not derive an id from the Falsehood field!", HttpStatus.BAD_REQUEST);
+            return Mono.just(new ResponseEntity<String>("Could not derive an id from the Falsehood field!", HttpStatus.BAD_REQUEST));
         }
 
-        return super.getResult(publicFalsehoodService.editFalsehoodContents(id,
-                values.getFirst("Contents"), values.getFirst("Reason"),principal));
+        return publicFalsehoodService.editFalsehoodContents(id,
+                values.getFirst("Contents"), values.getFirst("Reason"),principal)
+                .map((String message) ->super.getResult(message))
+                .onErrorResume((Throwable ex) -> Mono.just(super.getResult(ex.getMessage())));
     }
 }

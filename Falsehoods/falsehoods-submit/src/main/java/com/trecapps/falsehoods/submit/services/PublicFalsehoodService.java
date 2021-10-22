@@ -1,9 +1,6 @@
 package com.trecapps.falsehoods.submit.services;
 
-import com.trecapps.base.FalsehoodModel.models.Falsehood;
-import com.trecapps.base.FalsehoodModel.models.FullPublicFalsehood;
-import com.trecapps.base.FalsehoodModel.models.PublicFalsehood;
-import com.trecapps.base.FalsehoodModel.models.PublicFalsehoodRecords;
+import com.trecapps.base.FalsehoodModel.models.*;
 import com.trecapps.base.FalsehoodModel.repos.PublicFalsehoodRecordsRepo;
 import com.trecapps.base.FalsehoodModel.repos.PublicFalsehoodRepo;
 import com.trecapps.base.InfoResource.models.Record;
@@ -75,24 +72,22 @@ public class PublicFalsehoodService {
         return "";
     }
 
-    public String editFalsehoodContents(BigInteger id, String contents, String comment, OidcUser principal)
+    public Mono<String> editFalsehoodContents(BigInteger id, String contents, String comment, OidcUser principal)
     {
         if(!cRepos.existsById(id) || !pfRepo.existsById(id))
-            return "404: Falsehood not documented!";
+            return Mono.just("404: Falsehood not documented!");
 
         PublicFalsehood metadata = pfRepo.getById(id);
         if(!principal.getSubject().equals(metadata.getUserId()))
-            return "401: Only the Owner of the Falsehood can change the contents";
-        // To-Do: Once Storage Client is set up, send new contents to it
+            return Mono.just("401: Only the Owner of the Falsehood can change the contents");
 
+        return storageClient.SubmitFalsehood("PublicFalsehood-" + metadata.getId(), contents, principal.getSubject())
+                .map((String str) -> {
+                    PublicFalsehoodRecords records = cRepos.findById(id).get();
 
-
-        // End To-Do
-        PublicFalsehoodRecords records = cRepos.findById(id).get();
-
-        records.getRecords().add(new Record("Event", "Edit", new Date(Calendar.getInstance().getTime().getTime()), 0l, comment));
-        cRepos.save(records);
-        return "";
-
+                    records.getRecords().add(new Record("Event", "Edit", new Date(Calendar.getInstance().getTime().getTime()), 0l, comment));
+                    cRepos.save(records);
+                    return "";
+                });
     }
 }

@@ -38,7 +38,8 @@ public class MediaFalsehoodController extends FalsehoodControllerBase{
                             HttpStatus.FORBIDDEN));
 
         return mediaFalsehoodService.submitFalsehood(falsehood.getBody(), principal.getSubject())
-                .map((String message) ->super.getResult(message));
+                .map((String message) ->super.getResult(message))
+                .onErrorResume((Throwable ex) -> Mono.just(super.getResult(ex.getMessage())));
 
     }
 
@@ -57,7 +58,7 @@ public class MediaFalsehoodController extends FalsehoodControllerBase{
     }
 
     @PutMapping(value = "/Content", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateContents(RequestEntity<MultiValueMap<String, String>> request,
+    public Mono<ResponseEntity<String>> updateContents(RequestEntity<MultiValueMap<String, String>> request,
                                                  @AuthenticationPrincipal OidcUser principal)
     {
         MultiValueMap<String, String> values = request.getBody();
@@ -67,10 +68,12 @@ public class MediaFalsehoodController extends FalsehoodControllerBase{
             id = new BigInteger(values.getFirst("Falsehood"));
         } catch (Exception e)
         {
-            return new ResponseEntity<String>("Could not derive an id from the Falsehood field!", HttpStatus.BAD_REQUEST);
+            return Mono.just(new ResponseEntity<String>("Could not derive an id from the Falsehood field!", HttpStatus.BAD_REQUEST));
         }
 
-        return super.getResult(mediaFalsehoodService.editFalsehoodContents(id,
-                values.getFirst("Contents"), values.getFirst("Reason"), principal));
+        return mediaFalsehoodService.editFalsehoodContents(id,
+                values.getFirst("Contents"), values.getFirst("Reason"), principal)
+                .map((String message)->super.getResult(message))
+                .onErrorResume((Throwable ex) -> Mono.just(super.getResult(ex.getMessage())));
     }
 }
