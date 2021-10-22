@@ -7,9 +7,11 @@ import com.trecapps.base.FalsehoodModel.models.PublicFalsehoodRecords;
 import com.trecapps.base.FalsehoodModel.repos.PublicFalsehoodRecordsRepo;
 import com.trecapps.base.FalsehoodModel.repos.PublicFalsehoodRepo;
 import com.trecapps.base.InfoResource.models.Record;
+import com.trecapps.falsehoods.submit.config.StorageClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.math.BigInteger;
 import java.sql.Date;
@@ -26,34 +28,32 @@ public class PublicFalsehoodService {
     @Autowired
     PublicFalsehoodRecordsRepo cRepos;
 
-    public String submitFalsehood(FullPublicFalsehood full, String subject)
+    @Autowired
+    StorageClient storageClient;
+
+    public Mono<String> submitFalsehood(FullPublicFalsehood full, String subject)
     {
         String contents = full.getContents();
         PublicFalsehood falsehood = full.getMetadata();
         if(contents == null || falsehood == null)
-            return "400: Missing details!";
+            return Mono.just("400: Missing details!");
 
         falsehood.setId(null);
         falsehood.setUserId(subject);
         falsehood = pfRepo.save(falsehood);
-        // To-Do: Set up Sotrage Client and send Contents of file to it
-
-
-        // End To-Do
         BigInteger fId = falsehood.getId();
+        return storageClient.SubmitFalsehood("PublicFalsehood-" + fId, contents, subject)
+                .map((String str) ->{
+                    List<Record> records = new ArrayList<>();
+                    records.add(new Record("Event", "Creation", new Date(Calendar.getInstance().getTime().getTime()), 0l, null));
 
+                    PublicFalsehoodRecords newRecords = new PublicFalsehoodRecords(fId,
+                            (byte)fId.divideAndRemainder(BigInteger.valueOf(20))[1].intValue(), records);
 
+                    cRepos.save(newRecords);
+                    return "";
+                });
 
-        List<Record> records = new ArrayList<>();
-        records.add(new Record("Event", "Creation", new Date(Calendar.getInstance().getTime().getTime()), 0l, null));
-
-        PublicFalsehoodRecords newRecords = new PublicFalsehoodRecords(fId,
-                (byte)fId.divideAndRemainder(BigInteger.valueOf(20))[1].intValue(), records);
-
-        cRepos.save(newRecords);
-
-
-        return "";
     }
 
     public String editFalsehoodMetadata(PublicFalsehood falsehood, String comment)

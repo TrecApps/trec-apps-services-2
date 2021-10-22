@@ -22,7 +22,7 @@ import java.util.TimeZone;
 @AllArgsConstructor
 public class FileData
 {
-    Long userAccount;
+    String userAccount;
 
     Date added;
 
@@ -58,18 +58,13 @@ public class FileData
         String fileName = null, ext = null;
         byte nsfwRating = 0;
 
-        Long account;
+        String account;
         type = getHeaderValue(headers, "Account");
 
         if(type.isEmpty())
-            throw new IllegalArgumentException("Adding new File must have an account accosiated with it!");
-        try
-        {
-            account = Long.parseLong(type.get());
-        } catch(NumberFormatException ex)
-        {
-            throw new IllegalArgumentException("Failed to parse Account Number from provided field!", ex);
-        }
+            throw new IllegalArgumentException("Adding new File must have an account associated with it!");
+        account = (type.get());
+
 
         type = getHeaderValue(headers, "Content-type");
 

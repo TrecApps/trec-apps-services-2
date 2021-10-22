@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.math.BigInteger;
 
@@ -28,15 +29,16 @@ public class PublicFalsehoodController extends FalsehoodControllerBase{
     PublicFalsehoodService publicFalsehoodService;
 
     @PostMapping("/Submit")
-    public ResponseEntity<String> submitMediaFalsehood(RequestEntity<FullPublicFalsehood> falsehood,
-                                                       @AuthenticationPrincipal OidcUser principal)
+    public Mono<ResponseEntity<String>> submitMediaFalsehood(RequestEntity<FullPublicFalsehood> falsehood,
+                                                             @AuthenticationPrincipal OidcUser principal)
     {
         FalsehoodUser user = principal.getClaim("FalsehoodUser");
         if(user.getCredibility() < MIN_CREDIT_SUBMIT_NEW)
-            return new ResponseEntity<String>
+            return Mono.just(new ResponseEntity<String>
                     ("Your Credibility Is too low. Please wait until it is set to five before trying again!",
-                            HttpStatus.FORBIDDEN);
-        return super.getResult(publicFalsehoodService.submitFalsehood(falsehood.getBody(), principal.getSubject()));
+                            HttpStatus.FORBIDDEN));
+        return publicFalsehoodService.submitFalsehood(falsehood.getBody(), principal.getSubject())
+                .map((String message) -> super.getResult(message));
     }
 
     @PutMapping("/Metadata")
