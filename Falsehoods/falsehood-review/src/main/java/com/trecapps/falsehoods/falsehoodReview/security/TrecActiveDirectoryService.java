@@ -3,6 +3,7 @@ package com.trecapps.falsehoods.falsehoodReview.security;
 import com.azure.spring.aad.webapp.AADOAuth2UserService;
 import com.trecapps.base.FalsehoodModel.models.FalsehoodUser;
 import com.trecapps.base.FalsehoodModel.repos.FalsehoodUserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -15,6 +16,8 @@ public class TrecActiveDirectoryService implements OAuth2UserService<OidcUserReq
     AADOAuth2UserService aadoAuth2UserService;
 
     FalsehoodUserRepo falsehoodUserRepo;
+
+    @Autowired
     public TrecActiveDirectoryService(AADOAuth2UserService aadoAuth2UserService1, FalsehoodUserRepo falsehoodUserRepo1)
     {
         aadoAuth2UserService = aadoAuth2UserService1;
