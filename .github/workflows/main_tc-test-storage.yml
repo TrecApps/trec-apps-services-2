@@ -3,6 +3,14 @@
 
 name: Build and deploy JAR app to Azure Web App - tc-test-storage
 
+env:
+  USE_DIRECTORY: 'Internal/Storage/'
+  FULL_DIRECTORY: '${{ github.workspace }}/${{ USE_DIRECTORY }}'
+
+defaults:
+  run:
+    working-directory: '${{USE_DIRECTORY}}'
+
 on:
   push:
     branches:
@@ -22,13 +30,13 @@ jobs:
           java-version: '11'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: gradle build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ FULL_DIRECTORY }}/build/libs/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
