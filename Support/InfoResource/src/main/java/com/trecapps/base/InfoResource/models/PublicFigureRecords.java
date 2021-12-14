@@ -1,7 +1,5 @@
 package com.trecapps.base.InfoResource.models;
 
-import com.azure.spring.data.cosmos.core.mapping.Container;
-import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import lombok.*;
 
 import java.util.List;
@@ -10,12 +8,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Container(containerName = "figures", ru = "400")
+//@Container(containerName = "figures", ru = "400")
 @ToString
 public class PublicFigureRecords {
     Long figureId;
 
-    @PartitionKey
+    //@PartitionKey
     byte partition;
 
     List<Record> records;

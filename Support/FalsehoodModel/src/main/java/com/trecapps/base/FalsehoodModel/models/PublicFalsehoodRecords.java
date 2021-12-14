@@ -1,7 +1,5 @@
 package com.trecapps.base.FalsehoodModel.models;
 
-import com.azure.spring.data.cosmos.core.mapping.Container;
-import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import com.trecapps.base.InfoResource.models.Record;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -13,13 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Container(containerName = "pFalsehoods", ru = "400")
+//@Container(containerName = "pFalsehoods", ru = "400")
 @ToString
 public class PublicFalsehoodRecords {
     @Id
-    BigInteger institutionId;
+    BigInteger falsehoodId;
 
-    @PartitionKey
+    //@PartitionKey
     byte partition;
 
     List<Record> records;

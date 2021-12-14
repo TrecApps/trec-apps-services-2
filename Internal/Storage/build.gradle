@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.trecapps.internal'
-version buildVersion
+version '0.0.1'
 
 repositories {
     mavenCentral()
