@@ -20,7 +20,7 @@ public class RegionRecordsRepo {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    void save(RegionRecords records) throws JsonProcessingException {
+    public void save(RegionRecords records) throws JsonProcessingException {
         if(records.getRegionId() == null)
             throw new NullPointerException("Null Region Id Provided!");
 
@@ -29,7 +29,7 @@ public class RegionRecordsRepo {
         client.SubmitJson(name, mapper.writeValueAsString(records.getRecords()), "Trec-Apps-Resource", "Resource");
     }
 
-    List<Record> retrieveRecords(long id) throws JsonProcessingException {
+    public List<Record> retrieveRecords(long id) throws JsonProcessingException {
         String name = "Region-Records-" + id;
 
         String contents = client.getContents(name, "Resource").block();

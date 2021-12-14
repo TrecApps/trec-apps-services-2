@@ -18,7 +18,7 @@ public class MediaOutletRecordRepo {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    void save(MediaOutletRecords records) throws JsonProcessingException {
+    public void save(MediaOutletRecords records) throws JsonProcessingException {
         if(records.getOutletId() == null)
             throw new NullPointerException("Null Media-Outlet Id Provided!");
 
@@ -27,7 +27,7 @@ public class MediaOutletRecordRepo {
         client.SubmitJson(name, mapper.writeValueAsString(records.getRecords()), "Trec-Apps-Resource", "Resource");
     }
 
-    List<Record> retrieveRecords(long id) throws JsonProcessingException {
+    public List<Record> retrieveRecords(long id) throws JsonProcessingException {
         String name = "Media-Outlet-Records-" + id;
 
         String contents = client.getContents(name, "Resource").block();

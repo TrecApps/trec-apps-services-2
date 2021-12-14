@@ -18,7 +18,7 @@ public class InstitutionRecordsRepo {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    void save(InstitutionRecords records) throws JsonProcessingException {
+    public void save(InstitutionRecords records) throws JsonProcessingException {
         if(records.getInstitutionId() == null)
             throw new NullPointerException("Null Institution Id Provided!");
 
@@ -27,7 +27,7 @@ public class InstitutionRecordsRepo {
         client.SubmitJson(name, mapper.writeValueAsString(records.getRecords()), "Trec-Apps-Resource", "Resource");
     }
 
-    List<Record> retrieveRecords(long id) throws JsonProcessingException {
+    public List<Record> retrieveRecords(long id) throws JsonProcessingException {
         String name = "Institution-Records-" + id;
 
         String contents = client.getContents(name, "Resource").block();

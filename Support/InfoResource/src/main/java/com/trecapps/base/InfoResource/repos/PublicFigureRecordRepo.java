@@ -18,7 +18,7 @@ public class PublicFigureRecordRepo {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    void save(PublicFigureRecords records) throws JsonProcessingException {
+    public void save(PublicFigureRecords records) throws JsonProcessingException {
         if(records.getFigureId() == null)
             throw new NullPointerException("Null Public-Figure Id Provided!");
 
@@ -27,7 +27,7 @@ public class PublicFigureRecordRepo {
         client.SubmitJson(name, mapper.writeValueAsString(records.getRecords()), "Trec-Apps-Resource", "Resource");
     }
 
-    List<Record> retrieveRecords(long id) throws JsonProcessingException {
+    public List<Record> retrieveRecords(long id) throws JsonProcessingException {
         String name = "Public-Figure-Records-" + id;
 
         String contents = client.getContents(name, "Resource").block();

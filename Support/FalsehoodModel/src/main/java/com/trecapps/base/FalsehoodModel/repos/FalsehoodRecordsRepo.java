@@ -20,7 +20,7 @@ public class FalsehoodRecordsRepo //extends CosmosRepository<FalsehoodRecords, B
 
     ObjectMapper mapper = new ObjectMapper();
 
-    void save(FalsehoodRecords records) throws JsonProcessingException {
+    public void save(FalsehoodRecords records) throws JsonProcessingException {
         if(records.getFalsehoodId() == null)
             throw new NullPointerException("Null Falsehood Id Provided!");
 
@@ -29,7 +29,7 @@ public class FalsehoodRecordsRepo //extends CosmosRepository<FalsehoodRecords, B
         client.SubmitJson(name, mapper.writeValueAsString(records.getRecords()), "Trec-Apps-Falsehood", "Falsehood");
     }
 
-    List<Record> retrieveRecords(long id) throws JsonProcessingException {
+    public List<Record> retrieveRecords(long id) throws JsonProcessingException {
         String name = "Falsehood-Records-" + id;
 
         String contents = client.getContents(name, "Falsehood").block();
