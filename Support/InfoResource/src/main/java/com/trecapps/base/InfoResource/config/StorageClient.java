@@ -13,9 +13,12 @@ import reactor.core.publisher.Mono;
 public class StorageClient {
 
     //Logger
-
-    @Autowired
     WebClient client;
+    
+    public StorageClient()
+    {
+        client = WebClient.builder().build();
+    }
 
     @Value("${storage.url}")
     String baseStorageUrl;
