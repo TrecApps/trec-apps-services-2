@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
-@Component
+//@Component
 public class StorageClient {
 
     //Logger
@@ -20,7 +20,7 @@ public class StorageClient {
         client = WebClient.builder().build();
     }
 
-    @Value("${storage.url}")
+    //@Value("${storage.url}")
     String baseStorageUrl;
 
     public Mono<String> getContents(String id, String app)
