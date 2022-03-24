@@ -96,7 +96,7 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	@NotNull
 	String userId;
 	
-	@Column(length = 400)
+	@Transient
 	String tags;
 
 

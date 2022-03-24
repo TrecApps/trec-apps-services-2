@@ -90,7 +90,7 @@ public class Falsehood implements Comparable<Falsehood>{
 	@NotNull
 	String userId;
 	
-	@Column(length = 400)
+	@Transient
 	String tags;
 
 
