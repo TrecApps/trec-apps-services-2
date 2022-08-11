@@ -21,11 +21,11 @@ public class FullPublicFalsehood {
 
     PublicFalsehoodRecords records;
 
-
+	List<FalsehoodReference> uses, usedBy;
 
 	public FullPublicFalsehood clone()
     {
-    	return new FullPublicFalsehood(contents, metadata.clone(), records);
+    	return new FullPublicFalsehood(contents, metadata.clone(), records, uses, usedBy);
     }
 
 	public FullPublicFalsehood clone(byte severity)
@@ -35,7 +35,7 @@ public class FullPublicFalsehood {
 
 		PublicFalsehood newMeta = metadata.clone();
 		newMeta.setStatus(severity);
-		return new FullPublicFalsehood(contents, newMeta, records);
+		return new FullPublicFalsehood(contents, newMeta, records, uses,usedBy);
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.util.UUID;
 
 
 @Entity
@@ -33,10 +34,12 @@ public class Falsehood implements Comparable<Falsehood>{
 	BigInteger id;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn()
 	MediaOutlet outlet;
 
-	
+	@ManyToOne
+	@JoinColumn
+	CommonLie commonLie;
 	// Verification Status
 	
 	
@@ -89,6 +92,9 @@ public class Falsehood implements Comparable<Falsehood>{
 	@Column
 	@NotNull
 	String userId;
+
+	@Column
+	UUID brandID;
 	
 	@Transient
 	String tags;
@@ -96,7 +102,7 @@ public class Falsehood implements Comparable<Falsehood>{
 
 	public Falsehood clone()
 	{
-		return new Falsehood(id, outlet, status, mediaType, severity, author1, author2, source, dateMade, contentId, userId, tags);
+		return new Falsehood(id, outlet, commonLie, status, mediaType, severity, author1, author2, source, dateMade, contentId, userId, brandID, tags);
 	}
 	
 	public boolean canUpgrade()

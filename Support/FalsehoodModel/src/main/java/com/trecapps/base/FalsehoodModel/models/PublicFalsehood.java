@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.util.UUID;
 
 
 @Entity
@@ -30,6 +31,10 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	BigInteger id;
+
+	@ManyToOne
+	@JoinColumn
+	CommonLie commonLie;
 	
 	@Column
 	byte status;
@@ -95,6 +100,9 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	@Column
 	@NotNull
 	String userId;
+
+	@Column
+	UUID brandId;
 	
 	@Transient
 	String tags;
@@ -116,7 +124,7 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	
 	public PublicFalsehood clone()
 	{
-		return new PublicFalsehood(id, status, official, officialType, region, institution, severity, dateMade, userId, tags);
+		return new PublicFalsehood(id, commonLie,status, official, officialType, region, institution, severity, dateMade, userId, brandId, tags);
 	}
 
 	@Override

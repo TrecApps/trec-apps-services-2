@@ -1,5 +1,6 @@
 package com.trecapps.base.InfoResource.models;
 
+
 import javax.persistence.*;
 
 @Table
@@ -7,7 +8,7 @@ import javax.persistence.*;
 public class Region implements Comparable<Region> {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	Long id;
 	
 	@Column

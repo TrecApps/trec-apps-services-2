@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
 import java.util.List;
 
 
@@ -22,10 +23,11 @@ public class FullFalsehood {
 
 	FalsehoodRecords records;
 
+	List<FalsehoodReference> uses, usedBy;
 
 	public FullFalsehood clone()
 	{
-		return new FullFalsehood(contents, metadata.clone(), records);
+		return new FullFalsehood(contents, metadata.clone(), records, uses, usedBy);
 	}
 
 	public FullFalsehood clone(byte severity)
@@ -35,7 +37,7 @@ public class FullFalsehood {
 
 		Falsehood newMeta = metadata.clone();
 		newMeta.setStatus(severity);
-		return new FullFalsehood(contents, newMeta, records);
+		return new FullFalsehood(contents, newMeta, records, uses, usedBy);
 	}
 
 	

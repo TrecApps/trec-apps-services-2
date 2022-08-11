@@ -1,11 +1,11 @@
 package com.trecapps.base.InfoResource.models;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.UUID;
 
-@Component
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,6 +16,7 @@ public class Record
     String recordType;
     String details;
     Date made;
-    Long userId;
+    String userId;
+    UUID brandId;
     String specifics;
 }
