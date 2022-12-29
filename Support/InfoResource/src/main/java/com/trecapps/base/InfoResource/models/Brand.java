@@ -3,14 +3,12 @@ package com.trecapps.base.InfoResource.models;
 import com.trecapps.base.InfoResource.security.Permission;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Table
 @Entity
+@javax.persistence.Entity
 @Data
 public class Brand {
     @Id

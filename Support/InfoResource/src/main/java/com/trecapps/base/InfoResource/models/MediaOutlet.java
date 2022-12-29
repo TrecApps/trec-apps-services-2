@@ -1,9 +1,10 @@
 package com.trecapps.base.InfoResource.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 @Entity
+@javax.persistence.Entity
 @Table
 public class MediaOutlet implements Comparable<MediaOutlet>{
 

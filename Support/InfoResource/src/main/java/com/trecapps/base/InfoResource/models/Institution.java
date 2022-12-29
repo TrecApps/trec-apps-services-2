@@ -1,10 +1,11 @@
 package com.trecapps.base.InfoResource.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 @Table
 @Entity
+@javax.persistence.Entity
 public class Institution implements Comparable<Institution>{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

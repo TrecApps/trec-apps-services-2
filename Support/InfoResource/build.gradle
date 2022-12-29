@@ -17,9 +17,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:+'
 
     // DB Support
-    implementation 'org.hibernate:hibernate-core:5.4.11.Final'
-    implementation 'org.hibernate:hibernate-entitymanager:5.4.11.Final'
-    implementation 'javax.validation:validation-api:+'
+    implementation 'org.hibernate:hibernate-core:6.1.6.Final'
+    implementation 'org.hibernate:hibernate-entitymanager:5.6.14.Final'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-webflux:+'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
